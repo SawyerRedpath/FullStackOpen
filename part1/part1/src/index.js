@@ -1,72 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
-const Header = (props) => {
-  return <h1>{props.course}</h1>;
-};
+const Button = (props) => (
+  <button onClick={props.handleClick}>{props.text}</button>
+);
 
-const Content = (props) => {
-  return (
-    <div>
-      <Part
-        name={props.parts[0].name}
-        exercises={props.parts[0].exercises}
-      ></Part>
-      <Part
-        name={props.parts[1].name}
-        exercises={props.parts[1].exercises}
-      ></Part>
-      <Part
-        name={props.parts[2].name}
-        exercises={props.parts[2].exercises}
-      ></Part>
-    </div>
-  );
-};
-
-const Total = (props) => {
-  return (
-    <p>
-      Total number of exercises -{' '}
-      {props.parts[0].exercises +
-        props.parts[1].exercises +
-        props.parts[2].exercises}
-    </p>
-  );
-};
-
-const Part = (props) => {
-  return (
-    <p>
-      {props.name} - {props.exercises} exercises
-    </p>
-  );
-};
+const DisplayValue = (props) => (
+  <p>
+    {props.name} {props.value}
+  </p>
+);
 
 const App = () => {
-  const course = {
-    name: 'Half Stack appication development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10,
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7,
-      },
-      {
-        name: 'State of a component',
-        exercises: 14,
-      },
-    ],
+  // save clicks of each button to own state
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+
+  const handleGoodClick = () => {
+    setGood(good + 1);
+  };
+
+  const handleNeutralClick = () => {
+    setNeutral(neutral + 1);
+  };
+  const handleBadClick = () => {
+    setBad(bad + 1);
   };
 
   return (
     <div>
-      <Header course={course.name} />
-      <Content parts={course.parts} />
-      <Total parts={course.parts} />
+      <h3>Give Feedback</h3>
+      <Button handleClick={handleGoodClick} text="Good"></Button>
+      <Button handleClick={handleNeutralClick} text="Neutral"></Button>
+      <Button handleClick={handleBadClick} text="Bad"></Button>
+      <h3>Statistics</h3>
+      <DisplayValue name="Good" value={good}></DisplayValue>
+      <DisplayValue name="Neutral" value={neutral}></DisplayValue>
+      <DisplayValue name="Bad" value={bad}></DisplayValue>
     </div>
   );
 };
